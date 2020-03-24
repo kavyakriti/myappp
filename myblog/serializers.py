@@ -1,6 +1,14 @@
 from rest_framework import serializers
+from djoser.serializers import UserCreateSerializer, UserSerializer
 from .models import *
+from django.contrib.auth.models import User
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'password', 'email', 'first_name', 'last_name')
+        write_only_fields = ('password',)
+        read_only_fields = ('id',)
 
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,29 +19,7 @@ class PostSerializer(serializers.ModelSerializer):
             'owner'
         )
 
-class BusinessSerializer(serializers.ModelSerializer):
+class NewsSerializer(serializers.ModelSerializer):
     class Meta:
-        model=Business
-        fields = "__all__"
-
-class TechnicalSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=Technical
-        fields = "__all__"
-
-class EntertainmentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=Entertainment
-        fields = "__all__"
-
-class InternationalSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=International
-        fields = "__all__"
-
-class SportsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=Sports
-        fields = "__all__"
-
-
+        model = News
+        fields='__all__'

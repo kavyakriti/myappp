@@ -17,24 +17,16 @@ from django.contrib import admin
 from django.urls import path,include
 from rest_framework.authtoken.views import obtain_auth_token
 from myblog.views import TestView
-from rest_framework import routers
 from myblog import views
-
-router = routers.DefaultRouter()
-
-router.register('Business', views.BusinessAPI)
-router.register('Technical', views.TechnicalAPI)
-router.register('International', views.InternationalAPI)
-router.register('Entertainment', views.EntertainmentAPI)
-router.register('Sports', views.SportsAPI)
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('rest-auth/', include('rest_auth.urls')),
     path('api-auth/', include('rest_framework.urls')),
-    path('app/', TestView.as_view(), name='test'),
+    path('', views.NewscategoriesAPIView.as_view()),  
+    path('test/', TestView.as_view(), name='test'),
     path('api/token/', obtain_auth_token, name='obtain-token'),
-    path('', include(router.urls)),
+    path('register/', views.create),
 ]
+
 

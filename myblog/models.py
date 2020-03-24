@@ -1,12 +1,11 @@
+from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 
 # Create your models here.
-
 User = get_user_model()
-
 
 class Post(models.Model):
     title = models.CharField(max_length=100)
@@ -17,47 +16,16 @@ class Post(models.Model):
     def __str__(self):
         return self.title
  
-class Business(models.Model):
-    desc = models.CharField(max_length=500)
-    news = models.CharField(max_length=500)
-    img = models.CharField(max_length=500)
-    link = models.CharField(max_length=500)
 
-    class Meta:
-        managed = False
-        db_table = 'Business'
+class News(models.Model):
+    source = models.CharField(max_length=1000)
+    author = models.CharField(max_length=100)
+    title = models.CharField(max_length=100)
+    description=models.CharField(max_length=5000)
+    url=models.URLField(blank=True,null=True)
+    urlToImage=models.ImageField(upload_to ='img/',default='img/None/no-img.jpg')
+    publishedAt=models.DateTimeField(blank=True,null=True)
+    content=models.CharField(max_length=7000)
 
-
-class Technical(models.Model):
-
-    
-    class Meta:
-        managed = False
-        db_table = 'Technical'
-       
-
-
-class Entertainment(models.Model):
-
-    class Meta:
-        managed = False
-        db_table = 'Entertainment'
-       
-
-
-class International(models.Model):
-    
-
-    class Meta:
-        managed = False
-        db_table = 'International'
-
-
-class Sports(models.Model):
-   
-
-    class Meta:
-        managed = False
-        db_table = 'Sports'
-       
-
+    def __str__(self):
+        return self.title
