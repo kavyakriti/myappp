@@ -10,27 +10,34 @@ from rest_framework import generics,viewsets
 from rest_framework import status
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view,permission_classes
-from rest_framework.authentication import SessionAuthentication,BasicAuthentication,TokenAuthentication
+from rest_framework.authentication import SessionAuthentication,BasicAuthentication
 from django.views.decorators.csrf import csrf_exempt
 from newsapi import NewsApiClient
 from rest_framework.pagination import LimitOffsetPagination
 from myblog import dbconnect
 from django.contrib.auth.models import User
+from rest_framework.permissions import AllowAny
+from myapp.permissions import IsLoggedInUserOrAdmin, IsAdminUser
 
 from .serializers import *
 from .models import *
 
 # Create your views here.
-def create(self, validated_data):
-    user = User.objects.create(
-        username=validated_data['username'],
-        email=validated_data['email'],
-        first_name=validated_data['first_name'],
-        last_name=validated_data['last_name']
-     )
-    user.set_password(validated_data['password'])
-    user.save()
-    return user
+
+class UserViewSet(viewsets.ModelViewSet):
+  queryset = User.objects.all()
+  serializer_class = UserSerializer
+  
+  def get_permissions(self):
+    permission_classes = []
+    if self.action == 'create':
+      permission_classes = [AllowAny]
+    elif self.action == 'retrieve' or self.action == 'update' or self.action == 'partial_update':
+      permission_classes = [IsLoggedInUserOrAdmin]
+    elif self.action == 'list' or self.action == 'destroy':
+      permission_classes = [IsAdminUser]
+    return [permission() for permission in permission_classes]
+
 
 class TestView(APIView):
     permission_classes = (IsAuthenticated, )

@@ -15,18 +15,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from rest_framework.authtoken.views import obtain_auth_token
+from rest_framework_jwt.views import obtain_jwt_token
+from rest_framework_jwt.views import refresh_jwt_token
+from rest_framework_jwt.views import verify_jwt_token
 from myblog.views import TestView
 from myblog import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('rest-auth/', include('rest_auth.urls')),
-    path('api-auth/', include('rest_framework.urls')),
     path('', views.NewscategoriesAPIView.as_view()),  
     path('test/', TestView.as_view(), name='test'),
-    path('api/token/', obtain_auth_token, name='obtain-token'),
-    path('register/', views.create),
+    path('api-token-auth/', obtain_jwt_token),
+    path('api-token-refresh/', refresh_jwt_token),
+    path('api-token-verify/', verify_jwt_token),
+    path('blog/', include('myblog.urls')),
+    path('', include('django.contrib.auth.urls')),
 ]
 
 
