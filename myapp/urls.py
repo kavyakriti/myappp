@@ -21,12 +21,10 @@ from myblog import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('rest-auth/', include('rest_auth.urls')),
-    path('api-auth/', include('rest_framework.urls')),
-    path('', views.NewscategoriesAPIView.as_view()),  
+    path('news/', views.NewscategoriesAPIView.as_view()),  
     path('test/', TestView.as_view(), name='test'),
-    path('api/token/', obtain_auth_token, name='obtain-token'),
-    path('register/', views.create),
+    path(r'', include('myblog.urls')),
+
 ]
 
 

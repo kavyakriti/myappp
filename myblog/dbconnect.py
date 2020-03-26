@@ -10,7 +10,7 @@ import requests
 import re
 import MySQLdb
 import os
-from decouple import config
+from decouple import config       
 
 HOST = config('DB_HOST')
 USER = config('DB_USER')
@@ -19,9 +19,9 @@ DATABASE = config('DB_NAME')
 PORT = config('DB_PORT')
 
 def store_data(articles, source, auther, title, description, url, timestamp, content):
-    db = MySQLdb.connect(host = HOST, user = USER, passwd = PASSWD, db = DATABASE, charset = "utf8")
+    db = MySQLdb.connect(host = HOST, user = USER, passwd = PASSWORD, db = DATABASE, charset = "utf8")
     cursor = db.cursor()
-    insert_query = MySQLdb.escape_string("INSERT INTO table (articles, source, auther, title, description, url, timestamp, content) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)")
+    insert_query = MySQLdb.escape_string("INSERT INTO table (articles, source, author, title, description, url, timestamp, content) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)")
     cursor.execute(insert_query, (articles, source, auther, title, description, url, timestamp, content))
     db.commit()
     cursor.close()
@@ -33,17 +33,18 @@ def on_data(data):
         datajson = json.loads(data)
         articles = datajson['articles']
         source = datajson['articles']['source']['name']
-        auther = datajson['articles']['auther']
+        author = datajson['articles']['auther']
         title = datajson['articles']['title']
         description = datajson['articles']['description']
         url = datajson['articles']['url']
         timestamp = parser.parse(datajson['articles']['publishedAt'])
         content = datajson['articles']['content']
 
-        store_data(articles, source, auther, title, description, url, timestamp, content)
-    except Exception as e:
+        store_data(articles, source, author, title, description, url, timestamp, content)
+    except Exception as e:           
         print(e)
 
 if __name__ == '__main__':
-    data = requests.get('https://newsapi.org/v2/top-headlines?country=us& config(API_KEY)')
+    data = requests.get('https://newsapi.org/v2/top-headlines?country=us&config(API_KEY)')
+    print("hiiii")
     on_data(data)

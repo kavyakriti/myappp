@@ -10,27 +10,27 @@ from rest_framework import generics,viewsets
 from rest_framework import status
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view,permission_classes
-from rest_framework.authentication import SessionAuthentication,BasicAuthentication,TokenAuthentication
 from django.views.decorators.csrf import csrf_exempt
 from newsapi import NewsApiClient
 from rest_framework.pagination import LimitOffsetPagination
 from myblog import dbconnect
-from django.contrib.auth.models import User
+from rest_framework.reverse import reverse
 
 from .serializers import *
 from .models import *
 
 # Create your views here.
-def create(self, validated_data):
-    user = User.objects.create(
-        username=validated_data['username'],
-        email=validated_data['email'],
-        first_name=validated_data['first_name'],
-        last_name=validated_data['last_name']
-     )
-    user.set_password(validated_data['password'])
-    user.save()
-    return user
+class UserList(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+ 
+ 
+class UserDetail(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = UserSerializer
+ 
+    def get_queryset(self):
+        return User.objects.all().filter(username=self.request.user)
+
 
 class TestView(APIView):
     permission_classes = (IsAuthenticated, )

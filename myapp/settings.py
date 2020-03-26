@@ -28,6 +28,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1']
 
+AUTH_USER_MODEL = 'myblog.User'
+
 
 # Application definition
 
@@ -38,10 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'decouple,'
-    'rest_framework.authtoken',
     'myblog',
+    'rest_framework',
+    'decouple',
+    'rest_framework.authtoken', 
 ]
 
 MIDDLEWARE = [
@@ -88,17 +90,6 @@ DATABASES = {
         'HOST': config('DB_HOST'),
         'PORT': config('DB_PORT'), 
     }
-}
-
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
-    ),
-    'DEFAULT_PERMISSIONS_CLASSES':(
-        'rest_framework.authentication.IsAuthenticated',
-    ),
 }
 
 
