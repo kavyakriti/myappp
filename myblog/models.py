@@ -35,13 +35,14 @@ class Post(models.Model):
  
 
 class News(models.Model):
+    category = models.CharField(max_length=1000) 
     source = models.CharField(max_length=1000)
     author = models.CharField(max_length=100)
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=5000)
     description=models.CharField(max_length=5000)
     url=models.URLField(blank=True,null=True)
-    urlToImage=models.ImageField(upload_to ='img/',default='img/None/no-img.jpg')
-    publishedAt=models.DateTimeField(blank=True,null=True)
+    urltoimage=models.ImageField(upload_to ='img/',default='img/None/no-img.jpg')
+    publishedat=models.DateTimeField(blank=True,null=True)
     content=models.CharField(max_length=7000)
 
     def __str__(self):

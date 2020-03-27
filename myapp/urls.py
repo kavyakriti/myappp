@@ -23,13 +23,13 @@ from myblog import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.NewscategoriesAPIView.as_view()),  
+    path(r'', include('django.contrib.auth.urls')),
+    path('news/', views.NewscategoriesAPIView.as_view()),  
     path('test/', TestView.as_view(), name='test'),
     path('api-token-auth/', obtain_jwt_token),
     path('api-token-refresh/', refresh_jwt_token),
     path('api-token-verify/', verify_jwt_token),
     path('blog/', include('myblog.urls')),
-    path('', include('django.contrib.auth.urls')),
 ]
 
 

@@ -90,8 +90,8 @@ class PostListCreateView(generics.ListCreateAPIView):
     queryset = Post.objects.all()
 
 class NewsViewPagination(LimitOffsetPagination):
-    default_limit = 2
-    max_limit = 3
+    default_limit = 5
+    max_limit = 30
 
 class NewscategoriesAPIView(generics.ListAPIView):
     queryset = News.objects.all()
