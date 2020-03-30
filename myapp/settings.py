@@ -39,9 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'decouple,'
-    'rest_framework.authtoken',
+    'rest_framework.authtoken', 
     'myblog',
+    'decouple',
+    'djoser',
 ]
 
 MIDDLEWARE = [
@@ -99,6 +100,19 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSIONS_CLASSES':(
         'rest_framework.authentication.IsAuthenticated',
     ),
+}
+
+AUTH_USER_MODEL = 'myblog.User'
+
+
+DJOSER = {
+   "LOGIN_FIELD": 'email',
+   "USER_CREATE_PASSWORD_RETYPE":True,
+   "SERIALIZERS":{
+        "user_create":'myblog.serializers.UserCreateSerializer',
+        "user":'myblog.serializers.UserCreateSerializer',
+        "current_user":'myblog.serializers.CurrentUserSerializer',
+    },
 }
 
 
